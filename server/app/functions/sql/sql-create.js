@@ -25,7 +25,7 @@ exports.createSaaSDB = function(){
             });
         });
     });
-};
+}; 
 
 /*
  * Creating DB for a new shop after request
