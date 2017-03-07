@@ -46,7 +46,7 @@ exports.updateProduct = function (req, res, next) {
 */
 exports.deleteProduct = function (req, res, next) {
     var results = {}, msg = 'Success', details = 'The product id was deleted';
-    res.status(status).json(body.str(results, msg, details));
+    res.status(200).json(body.str(results, msg, details));
 };
 
 /*
