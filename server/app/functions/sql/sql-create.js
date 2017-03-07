@@ -1,17 +1,19 @@
 var mysql = require('mysql');
 var conn = require('./connection').connectionObj;
-var connection = mysql.createConnection({
-    host: conn.host,
-    user: conn.user,
-    password: conn.password
-});
+var connObj = function(conn){
+    return mysql.createConnection({
+        host: conn.host,
+        user: conn.user,
+        password: conn.password
+    })
+};
 
 /*
  * Creating DB for a new shop after request
 */
 exports.createSaaSDB = function () {
     return new Promise(function (resolve, reject) {
-
+        var connection = connObj(conn);
         connection.query('CREATE DATABASE IF NOT EXISTS shop', function (err) {
 
             if (err) {
@@ -34,7 +36,7 @@ exports.createSaaSDB = function () {
                 });
             });
             */
-
+            connection.end();
         });
 
     });
@@ -45,6 +47,8 @@ exports.createSaaSDB = function () {
  * Creating DB for a new shop after request
 */
 exports.createShopDB = function(shopName){
+
+    var connection = connObj(conn);
     return new Promise(function (resolve, reject) {
         connection.query('CREATE DATABASE IF NOT EXISTS ' + shopName + '', function (err) {
             if(err) {
@@ -67,10 +71,13 @@ exports.createShopDB = function(shopName){
                         if(err3) {
                             resolve({status: 'Error'});
                         }
-                        resolve({status: 'Success'})
+                        resolve({status: 'Success'});
+                        connection.end();
                 });
             });
-            
+
         });
+
     });
+
 };

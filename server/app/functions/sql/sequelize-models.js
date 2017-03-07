@@ -98,7 +98,6 @@ mysqlCreate.createSaaSDB().then(function(message){
     
 });
 
-
 for (var key in sequelize) {
 
   if (sequelize.hasOwnProperty(key)) {
