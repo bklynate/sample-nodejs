@@ -6,15 +6,16 @@ var body = require('./commons');
 */
 exports.middlewareGenericErrorHandler = function (err, req, res, next) {
   var results = {}, msg = 'Error', details;
+  if(err){ console.error(err.stack); } 
+  else { console.log(req); }
+
   if (req.xhr) {
-    console.error(err.stack);
     details = {
       error: 'Client Request Error',
       errorStack: err.stack
     };
     res.status(500).json(body.str(results, msg, details));
   };
-  console.error(err.stack);
   details = {
       error: 'Application Error',
       errorStack: err.stack
