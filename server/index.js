@@ -5,6 +5,12 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var routes = require('./app/routes.js');
 var md = require('./app/functions/middlewares');
+var mysql-create = require("./app/functions/sql/sql-create.js");
+
+/*
+ * Creating database if not present
+*/
+mysql-create();
 
 /*
  * Adding middlewares for parsing JSON Body
