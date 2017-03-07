@@ -4,4 +4,4 @@
 #### Project uses sequelize for DB connection
 #### Project set up for sequelize-cli as well as normal code based migration (for first start)
 #### Project uses /config , /migrations , /models , /seeders for sequelize-cli
-#### Project uses /app for server code
+#### Project uses /app for server code (uses mysql for create DB)
