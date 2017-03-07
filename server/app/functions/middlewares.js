@@ -6,6 +6,7 @@ var body = require('./commons');
 */
 exports.middlewareGenericErrorHandler = function (err, req, res, next) {
   var results = {}, msg = 'Error', details;
+
   if (err) { 
     console.error(err.stack); 
     if (req.xhr) {
@@ -22,6 +23,7 @@ exports.middlewareGenericErrorHandler = function (err, req, res, next) {
     };
     res.status(500).json(body.str(results, msg, details));
   }
+  
   next();
 };
 
