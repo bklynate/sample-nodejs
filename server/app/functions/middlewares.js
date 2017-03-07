@@ -16,6 +16,7 @@ exports.middlewareGenericErrorHandler = function (err, req, res, next) {
     };
     res.status(500).json(body.str(results, msg, details));
   };
+  
   details = {
       error: 'Application Error',
       errorStack: err.stack
