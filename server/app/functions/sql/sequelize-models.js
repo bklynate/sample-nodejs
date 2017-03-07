@@ -3,6 +3,9 @@ var connectionObj = require('./connection').connectionObj;
 var shopProductsDBSQL = require('./sql-create').createShopDB;
 var mysqlCreate = require("./sql-create");
 
+/*
+ * New Sequelize connection string
+*/
 var seqFunction = function (database, conn) {
     return new Sequelize(database, conn.user, conn.password, {
         host: conn.host,
@@ -16,12 +19,18 @@ var seqFunction = function (database, conn) {
     });
 };
 
+/*
+ * Sequelize options
+*/
 var constTableDefOptions = {
     timestamps: false,
     createdAt: false,
     updatedAt: false
 }
 
+/*
+ * Common sequelize product table model
+*/
 var constProductsTable = {
     id: {
         type: Sequelize.INTEGER,
@@ -98,6 +107,9 @@ mysqlCreate.createSaaSDB().then(function(message){
     
 });
 
+/*
+ * Testing DB autntication
+*/
 for (var key in sequelize) {
 
   if (sequelize.hasOwnProperty(key)) {
@@ -222,7 +234,7 @@ exports.updateProduct = function (shopId, productId, productDetails) {
 };
 
 /*
- *
+ * Delete product from specific shop's table
 */
 exports.deleteProduct = function (shopId, productId) {
 
