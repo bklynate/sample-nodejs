@@ -33,6 +33,10 @@ var Shop = sequelizeShop.define('shops', {
         allowNull:    false,
         defaultValue: 0
     }
+},{
+    timestamps: false,
+    createdAt: false,
+    updatedAt: false
 });
 
 var sequelize = {};
@@ -56,3 +60,29 @@ for (var key in sequelize) {
   }
 };
 
+/*
+var Products = sequelize.define('products', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    category: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    product: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    discount: {
+        type: Sequelize.INTEGER,
+        allowNull:    false,
+        defaultValue: 0
+    },
+    price: {
+        type: Sequelize.INTEGER,
+        allowNull:    false,
+        defaultValue: 0
+    }
+});*/
