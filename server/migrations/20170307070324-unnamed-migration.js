@@ -1,5 +1,4 @@
 'use strict';
-var mysql = require('mysql');
 
 module.exports = {
   up: function (queryInterface, Sequelize) {

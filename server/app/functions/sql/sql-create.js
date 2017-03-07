@@ -50,5 +50,5 @@ exports.createShopDB = function(shopname){
             });
         });
     });
-    
+
 };
