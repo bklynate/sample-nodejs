@@ -4,7 +4,7 @@ exports.create = function(){
     var connection = mysql.createConnection({
         host     : 'localhost',
         user     : 'root',
-        password : '1admin1'
+        password : ''
     });
     connection.query('CREATE DATABASE IF NOT EXISTS shop', function (err) {
         if (err) throw err;
