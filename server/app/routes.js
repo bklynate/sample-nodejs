@@ -15,22 +15,12 @@ app.use(bodyParser.json());
 app.use(methodOverride());
 
 /*
- * Handling/Logging unknown errors in application
-*/
-app.use(md.middlewareErrorLogging);
-
-/*
  * Handling response headers in application
 */
 app.use(md.middlewareSetHeaders);
 
 /*
- * Handling/Logging unknown client related errors in application
-*/
-app.use(md.middlewareClientErrorHandler);
-
-/*
- * Handling generic errors in application
+ * Handling logging and generic errors in application
 */
 app.use(md.middlewareGenericErrorHandler);
 
@@ -58,4 +48,3 @@ app.route('*')
 });
 
 module.exports = app;
-

@@ -2,31 +2,23 @@
 var body = require('./commons');
 
 /*
- * Application's Error Logging Middleware
-*/
-exports.middlewareErrorLogging = function logErrors (err, req, res, next) {
-  next(err);
-}
-
-/*
- * Client Request Error Handling Middleware
-*/
-exports.middlewareClientErrorHandler = function (err, req, res, next) {
-  if (req.xhr) {
-    console.error(err.stack);
-    var results = {}, msg = 'Error', details = err.stack;
-    res.status(500).json(body.str(results, msg, details));
-  } else {
-      next(err);
-  }
-};
-
-/*
- * Generic Error Handling Middleware
+ * Generic Logging and Error Handling Middleware
 */
 exports.middlewareGenericErrorHandler = function (err, req, res, next) {
-  var results = {}, msg = 'Error', details = err.stack;
+  var results = {}, msg = 'Error', details;
+  if (req.xhr) {
+    console.error(err.stack);
+    details = {
+      error: 'Client Request Error',
+      errorStack: err.stack
+    };
+    res.status(500).json(body.str(results, msg, details));
+  };
   console.error(err.stack);
+  details = {
+      error: 'Application Error',
+      errorStack: err.stack
+  };
   res.status(500).json(body.str(results, msg, details));
 };
 
