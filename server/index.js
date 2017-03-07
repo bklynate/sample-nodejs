@@ -10,7 +10,7 @@ var mysqlCreate = require("./app/functions/sql/sql-create.js");
 /*
  * Creating saas database if not present
 */
-mysqlCreate.createSaaSDB();
+mysqlCreate.createSaaSDB(); 
 
 /*
  * Adding middlewares for parsing JSON Body
