@@ -1,19 +1,21 @@
 var mysql = require('mysql');
-
+var conn = require('./connection').connectionObj;
 var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : ''
+    host: conn.host,
+    user: conn.user,
+    password: conn.password
 });
 
 /*
  * Creating DB for a new shop after request
 */
-exports.createSaaSDB = function(){
+exports.createSaaSDB = function () {
 
     connection.query('CREATE DATABASE IF NOT EXISTS shop', function (err) {
         if (err) throw err;
-        connection.query('USE shop', function (err) {
+
+        // Conflicting with Sequelize
+        /*connection.query('USE shop', function (err) {
             if (err) throw err;
             connection.query('CREATE TABLE IF NOT EXISTS shop('
                 + 'id INT NOT NULL AUTO_INCREMENT,'
@@ -24,10 +26,11 @@ exports.createSaaSDB = function(){
                 +  ')', function (err) {
                     if (err) throw err;
             });
-        });
+        });*/
+
     });
 
-}; 
+};
 
 /*
  * Creating DB for a new shop after request
