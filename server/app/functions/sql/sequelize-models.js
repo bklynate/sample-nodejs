@@ -83,9 +83,8 @@ mysqlCreate.createSaaSDB().then(function(message){
 
                 Shop.findAll().then(function(shops){
 
-                    console.log(shops);
                     for(var i=0;i<shops.length;i++ ){
-                        
+
                         sequelize[shops[i].db_name] = seqFunction(shops[i].db_name, connectionObj);
                         MyShopModels[shops[i].db_name] = sequelize[shops[i].db_name].define(shops[i].db_name, constProductsTable, constTableDefOptions);
 
@@ -122,7 +121,9 @@ var createShopProductsDB = function (shopName) {
     return new Promise(function (resolve, reject){
 
         shopProductsDBSQL(shopName).then(function (message){
+
             resolve(message);
+
         });
 
     });
@@ -160,17 +161,10 @@ exports.createProduct = function (shopId, productDetails) {
     return new Promise(function(resolve, reject){
         Shop.findById(shopId).then(function(shop){
 
-            MyShopModels[shop.db_name].findOrCreate({
-                where: {product: productDetails.product}, 
-                defaults: productDetails
-            })
-            .spread(function(product, created) {
+            MyShopModels[shop.db_name].create(productDetails)
+            .then(function() {
 
-                if(created){
-                    resolve(product);
-                } else {
-                    resolve({status:'Error'})
-                }
+                resolve();
 
             });
 
@@ -183,14 +177,16 @@ exports.createProduct = function (shopId, productDetails) {
 /*
  * Find all products from the specific shop's product table
 */
-exports.findAll = function (shopName) {
+exports.findAll = function (shopId) {
 
     return new Promise(function (resolve, reject){
-        
-        // TODO
-        /*MyShopModels[shopName].findAll().then(function(products){
-            resolve(products);
-        });*/
+        Shop.findById(shopId).then(function(shop){
+
+            MyShopModels[shop.db_name].findAll().then(function(products){
+                resolve(products);
+            });
+
+        });
 
     });
 
@@ -199,14 +195,29 @@ exports.findAll = function (shopName) {
 /*
  * Update a product detail from the user in the shop's product table
 */
-exports.updateProduct = function (shopName, productDetails) {
+exports.updateProduct = function (shopId, productId, productDetails) {
 
     return new Promise(function (resolve, reject){
-        // TODO
-        /*MyShopModels[shopName].update().then(function(products){
-            resolve(products);
-        });*/
+        Shop.findById(shopId).then(function(shop){
 
+            MyShopModels[shop.db_name].update(productDetails, {
+                where: {
+                    id: {
+                        $eq: shopId
+                    }
+                }
+            }).then(function (results, metadata) {
+
+                if(results){
+                    resolve({status: results});
+                }else{
+                    resolve({status: 'Error'});
+                };
+
+            });
+
+        });
+        
     });
 
 };
@@ -214,9 +225,23 @@ exports.updateProduct = function (shopName, productDetails) {
 /*
  *
 */
-exports.deleteProduct = function (shopName) {
-    // TODO
+exports.deleteProduct = function (shopId, productId) {
+
     return new Promise(function (resolve, reject){
+
+        Shop.findById(shopId).then(function (shop) {
+
+            MyShopModels[shop.db_name].destroy({
+                    where: {
+                        id: productId
+                    }
+                }).then(function () {
+
+                    resolve();
+
+                });
+
+        });
 
     });
 

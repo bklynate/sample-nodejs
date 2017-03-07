@@ -27,15 +27,20 @@ exports.createShop = function (req, res, next) {
 */
 exports.getProducts = function (req, res, next) {
 
-    var results = [], msg = 'Success', details = 'Product list of shop id could not be fetched';
+    var results = [], msg = 'Failed', details = 'Product list of shop id could not be fetched';
 
-    sql.findAll(req.params.shopid).then(function(message){
-        if (message.status === 'Error') res.status(403).json(body.str(results, msg, details));
-        if(message.status === 'Success'){
-            msg = message.status;
-            details = 'Product lists of shop id fetched';
-            res.status(200).json(body.str(results, msg, details));
-        };
+    sql.findAll(req.params.shopid).then(function (products) {
+
+        if (!products) {
+            msg = 'Error';
+            res.status(403).json(body.str(results, msg, details));
+        }
+
+        msg = "Success";
+        details = 'Product lists of shop id fetched';
+        results = products;
+        res.status(200).json(body.str(results, msg, details));
+    
     });
 
 };
@@ -45,17 +50,12 @@ exports.getProducts = function (req, res, next) {
 */
 exports.addProduct = function (req, res, next) {
 
-    var results = {}, msg = 'Success', details = '';
+    var results = {}, msg = 'Failed', details = '';
     sql.createProduct(req.params.shopid, req.body).then(function (product) {
 
-        if(product.status && product.status === 'Error'){
-            details = "Application error: Please check the request";
-            res.status(500).json(body.str(results, product.status, details));
-        }
-
-        results = product;
-        details = "Product added to shop id";
-        res.status(200).json(body.str(results, msg, details));
+            msg = 'Success';
+            details = "Product added to shop id";
+            res.status(200).json(body.str(results, msg, details));
 
     });
     
@@ -76,8 +76,18 @@ exports.getProduct = function (req, res, next) {
 */
 exports.updateProduct = function (req, res, next) {
 
-    var results = '', msg = 'Success', details = 'The product id of shop id was updated';
-    res.status(200).json(body.str(results, msg, details));
+    var results = {}, msg = 'Failed', details = 'Product could not be updated';
+    sql.updateProduct(req.params.shopid, req.params.id, req.body).then(function(metadata){
+        if (metadata.status !== 'Error' && metadata.status > 0) {
+            msg = 'Success';
+            details = 'The product of shop id was updated - numbers ' + metadata.status;
+            res.status(200).json(body.str(results, msg, details));
+        } else {
+            msg = 'Error';
+            res.status(500).json(body.str(results, msg, details));
+        }
+        
+    });
 
 };
 
@@ -86,8 +96,11 @@ exports.updateProduct = function (req, res, next) {
 */
 exports.deleteProduct = function (req, res, next) {
 
-    var results = {}, msg = 'Success', details = 'The product id was deleted';
-    res.status(200).json(body.str(results, msg, details));
+    var results = {}, msg = 'Failed', details = 'The product id was deleted';
+    sql.deleteProduct(req.params.shopid, req.params.id).then(function () {
+        msg = 'Success';
+        res.status(200).json(body.str(results, msg, details));
+    });
 
 };
 
