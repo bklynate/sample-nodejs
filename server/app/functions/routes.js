@@ -1,13 +1,24 @@
 'use strict';
 var body = require('./commons');
-
+var sql = require('./sql/sequelize-models');
 /*
  * Create shop function
 */
 exports.createShop = function (req, res, next) {
 
-    var results = {}, msg = 'Success', details = 'Shop created with id';
-    res.status(200).json(body.str(results, msg, details));
+    var results = {}, msg = 'Failed', details = 'Shop could not be created with id';
+    
+    sql.createShop(req.body).then(function(message){
+
+        if(message && message.status === 'Success'){
+            msg = message.status;
+            details = 'Shop created. Please continue.';
+            res.status(200).json(body.str(results, msg, details));
+        } else {
+            res.status(200).json(body.str(results, msg, details));
+        }
+
+    });
 
 };
 
@@ -16,8 +27,16 @@ exports.createShop = function (req, res, next) {
 */
 exports.getProducts = function (req, res, next) {
 
-    var results = [], msg = 'Success', details = 'Product list of shop id';
-    res.status(200).json(body.str(results, msg, details));
+    var results = [], msg = 'Success', details = 'Product list of shop id could not be fetched';
+
+    sql.findAll(req.params.shopid).then(function(message){
+        if (message.status === 'Error') res.status(403).json(body.str(results, msg, details));
+        if(message.status === 'Success'){
+            msg = message.status;
+            details = 'Product lists of shop id fetched';
+            res.status(200).json(body.str(results, msg, details));
+        };
+    });
 
 };
 
@@ -26,9 +45,20 @@ exports.getProducts = function (req, res, next) {
 */
 exports.addProduct = function (req, res, next) {
 
-    var results = {}, msg = 'Success', details = 'Product added to shop id';
-    res.status(200).json(body.str(results, msg, details));
+    var results = {}, msg = 'Success', details = '';
+    sql.createProduct(req.params.shopid, req.body).then(function (product) {
 
+        if(product.status && product.status === 'Error'){
+            details = "Application error: Please check the request";
+            res.status(500).json(body.str(results, product.status, details));
+        }
+
+        results = product;
+        details = "Product added to shop id";
+        res.status(200).json(body.str(results, msg, details));
+
+    });
+    
 };
 
 /*

@@ -1,5 +1,8 @@
 var Sequelize = require('sequelize');
 var connectionObj = require('./connection').connectionObj;
+var shopProductsDBSQL = require('./sql-create').createShopDB;
+var mysqlCreate = require("./sql-create");
+
 var seqFunction = function (database, conn) {
     return new Sequelize(database, conn.user, conn.password, {
         host: conn.host,
@@ -13,55 +16,13 @@ var seqFunction = function (database, conn) {
     });
 };
 
-var sequelizeShop = seqFunction('shop', connectionObj);
-var Shop = sequelizeShop.define('shops', {
-    id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    shop_name: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    db_name: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    requests: {
-        type: Sequelize.BIGINT,
-        allowNull:    false,
-        defaultValue: 0
-    }
-},{
+var constTableDefOptions = {
     timestamps: false,
     createdAt: false,
     updatedAt: false
-});
+}
 
-var sequelize = {};
-Shop.sync().then(function(){
-    Shop.findAll().then(function(shops){
-        console.log(shops);
-        for(var i=0;i<shops.length;i++ ){
-            sequelize[shops[i].db_name] = seqFunction(shops[i].db_name, connectionObj);
-        }
-    });
-});
-
-
-for (var key in sequelize) {
-  if (sequelize.hasOwnProperty(key)) {
-    sequelize[key].authenticate()
-        .then(function (err) {
-            if(err) throw err;
-            console.log('Connection has been established successfully.');
-        });
-  }
-};
-
-/*
-var Products = sequelize.define('products', {
+var constProductsTable = {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -85,4 +46,178 @@ var Products = sequelize.define('products', {
         allowNull:    false,
         defaultValue: 0
     }
-});*/
+};
+
+var Shop, sequelizeShop, sequelize = {}, MyShopModels = {};
+
+/*
+ * Creating saas database if not present
+*/
+mysqlCreate.createSaaSDB().then(function(message){
+
+    if (message.status === 'Success') {
+
+        sequelizeShop = seqFunction('shop', connectionObj);
+        Shop = sequelizeShop.define('shops', {
+            id: {
+                type: Sequelize.INTEGER,
+                primaryKey: true,
+                autoIncrement: true
+            },
+            shop_name: {
+                type: Sequelize.STRING,
+                allowNull: false
+            },
+            db_name: {
+                type: Sequelize.STRING,
+                allowNull: false
+            },
+            requests: {
+                type: Sequelize.BIGINT,
+                allowNull:    false,
+                defaultValue: 0
+            }
+        }, constTableDefOptions);
+
+        Shop.sync().then(function(){
+
+                Shop.findAll().then(function(shops){
+
+                    console.log(shops);
+                    for(var i=0;i<shops.length;i++ ){
+                        
+                        sequelize[shops[i].db_name] = seqFunction(shops[i].db_name, connectionObj);
+                        MyShopModels[shops[i].db_name] = sequelize[shops[i].db_name].define(shops[i].db_name, constProductsTable, constTableDefOptions);
+
+                    }
+
+                });
+
+        });
+
+    };
+    
+});
+
+
+for (var key in sequelize) {
+
+  if (sequelize.hasOwnProperty(key)) {
+    sequelize[key].authenticate()
+        .then(function (err) {
+
+            if(err) throw err;
+            console.log('Connection has been established successfully.');
+
+        });
+  }
+
+};
+
+/*
+ * Independent Function to create shop's product database to `shop` DB
+*/
+var createShopProductsDB = function (shopName) {
+
+    return new Promise(function (resolve, reject){
+
+        shopProductsDBSQL(shopName).then(function (message){
+            resolve(message);
+        });
+
+    });
+
+};
+
+/*
+ * API related Function to create shop's product database along with entry to `shop` DB
+*/
+exports.createShop = function (shopDetails) {
+    return new Promise(function (resolve, reject) {
+
+        Shop.findOrCreate({
+            where: {db_name: shopDetails.db_name}, 
+            defaults: shopDetails
+        })
+        .spread(function(shop, created) {
+
+            createShopProductsDB(shopDetails.db_name).then(function (message) {
+                resolve(message);
+
+            });
+
+        });
+
+    });
+
+};
+
+/*
+ * Create a new product listing in the shop's product table using details from the user
+*/
+exports.createProduct = function (shopId, productDetails) {
+
+    return new Promise(function(resolve, reject){
+        Shop.findById(shopId).then(function(shop){
+
+            MyShopModels[shop.db_name].findOrCreate({
+                where: {product: productDetails.product}, 
+                defaults: productDetails
+            })
+            .spread(function(product, created) {
+
+                if(created){
+                    resolve(product);
+                } else {
+                    resolve({status:'Error'})
+                }
+
+            });
+
+        });
+
+    });
+
+};
+
+/*
+ * Find all products from the specific shop's product table
+*/
+exports.findAll = function (shopName) {
+
+    return new Promise(function (resolve, reject){
+        
+        // TODO
+        /*MyShopModels[shopName].findAll().then(function(products){
+            resolve(products);
+        });*/
+
+    });
+
+};
+
+/*
+ * Update a product detail from the user in the shop's product table
+*/
+exports.updateProduct = function (shopName, productDetails) {
+
+    return new Promise(function (resolve, reject){
+        // TODO
+        /*MyShopModels[shopName].update().then(function(products){
+            resolve(products);
+        });*/
+
+    });
+
+};
+
+/*
+ *
+*/
+exports.deleteProduct = function (shopName) {
+    // TODO
+    return new Promise(function (resolve, reject){
+
+    });
+
+};
