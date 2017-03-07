@@ -16,11 +16,11 @@ app.use(bodyParser.json());
 app.use(methodOverride());
 
 /*
- * Handling logging and generic errors in application
+ * Handling generic errors in application
  * Applying middlewares
  * Applying routes
 */
-app.use('/', md.middlewareSetHeaders, md.middlewareGenericErrorHandler, routes);
+app.use('/', md.middlewareGenericErrorHandler, md.middlewareSetHeaders, routes);
 
 http.listen(9001, function() {
     console.log('listening on *:9001');
