@@ -12,6 +12,7 @@ var md = require('./app/functions/middlewares');
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
 app.use(bodyParser.json());
 
 app.use(methodOverride());
