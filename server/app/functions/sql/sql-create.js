@@ -1,15 +1,16 @@
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
-        host     : 'localhost',
-        user     : 'root',
-        password : ''
-    });
+    host     : 'localhost',
+    user     : 'root',
+    password : ''
+});
 
 /*
  * Creating DB for a new shop after request
 */
 exports.createSaaSDB = function(){
+
     connection.query('CREATE DATABASE IF NOT EXISTS shop', function (err) {
         if (err) throw err;
         connection.query('USE shop', function (err) {
@@ -25,12 +26,14 @@ exports.createSaaSDB = function(){
             });
         });
     });
+
 }; 
 
 /*
  * Creating DB for a new shop after request
 */
 exports.createShopDB = function(shopname){
+
     connection.query('CREATE DATABASE IF NOT EXISTS ' + shopname + '', function (err) {
         if (err) throw err;
         connection.query('USE ' + shopname + '', function (err) {
@@ -47,4 +50,5 @@ exports.createShopDB = function(shopname){
             });
         });
     });
+    
 };
