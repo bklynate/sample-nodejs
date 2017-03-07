@@ -21,9 +21,8 @@ exports.middlewareGenericErrorHandler = function (err, req, res, next) {
       };
       res.status(500).json(body.str(results, msg, details));
     }
-  } else { 
-    console.log(req); 
   }
+  console.log(req);
   next();
 };
 

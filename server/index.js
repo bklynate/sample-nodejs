@@ -1,9 +1,26 @@
 var express = require('express');
 var app = express();
 var http = require('http').Server(app);
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
 var routes = require('./app/routes.js');
+var md = require('./app/functions/middlewares');
 
-app.use('/', routes);
+/*
+ * Adding middlewares for parsing JSON Body
+*/      
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json()); 
+app.use(methodOverride());
+
+/*
+ * Handling logging and generic errors in application
+ * Applying middlewares
+ * Applying routes
+*/
+app.use('/', md.middlewareSetHeaders, md.middlewareGenericErrorHandler, routes);
 
 http.listen(9001, function() {
     console.log('listening on *:9001');
