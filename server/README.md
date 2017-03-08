@@ -39,8 +39,11 @@
 
 ### Update Product details of shop
 ** URL: `localhost:9001/shop/::shopId/product/::productId`
+
 ** Method: PUT
+
 ** Headers: `'content-type':'application/json'`
+
 ** Sample Request Body: 
 `{
 "category": "alternate medicine",
