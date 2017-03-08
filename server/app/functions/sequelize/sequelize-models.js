@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
-var connectionObj = require('./connection').connectionObj;
-var shopProductsDBSQL = require('./sql-create').createShopDB;
-var mysqlCreate = require("./sql-create");
+var connectionObj = require('../sql/connection').connectionObj;
+var shopProductsDBSQL = require('../sql/sql-create').createShopDB;
+var mysqlCreate = require("../sql/sql-create");
 
 /*
  * New Sequelize connection string
@@ -62,7 +62,7 @@ var Shop, sequelizeShop, sequelize = {}, MyShopModels = {};
 /*
  * Creating saas database if not present
 */
-mysqlCreate.createSaaSDB().then(function(message){
+mysqlCreate.createSaaSDB().then(function (message) {
 
     if (message.status === 'Success') {
 
@@ -90,13 +90,11 @@ mysqlCreate.createSaaSDB().then(function(message){
 
         Shop.sync().then(function(){
 
-                Shop.findAll().then(function(shops){
+                Shop.findAll().then(function (shops) {
 
-                    for(var i=0;i<shops.length;i++ ){
-
+                    for (var i = 0; i < shops.length; i++) {
                         sequelize[shops[i].db_name] = seqFunction(shops[i].db_name, connectionObj);
                         MyShopModels[shops[i].db_name] = sequelize[shops[i].db_name].define(shops[i].db_name, constProductsTable, constTableDefOptions);
-
                     }
 
                 });
@@ -115,10 +113,8 @@ for (var key in sequelize) {
   if (sequelize.hasOwnProperty(key)) {
     sequelize[key].authenticate()
         .then(function (err) {
-
             if(err) throw err;
             console.log('Connection has been established successfully.');
-
         });
   }
 
@@ -129,12 +125,10 @@ for (var key in sequelize) {
 */
 var createShopProductsDB = function (shopName) {
 
-    return new Promise(function (resolve, reject){
+    return new Promise(function (resolve, reject) {
 
-        shopProductsDBSQL(shopName).then(function (message){
-
+        shopProductsDBSQL(shopName).then(function (message) {
             resolve(message);
-
         });
 
     });
@@ -152,12 +146,9 @@ exports.createShop = function (shopDetails) {
             defaults: shopDetails
         })
         .spread(function(shop, created) {
-
             createShopProductsDB(shopDetails.db_name).then(function (message) {
                 resolve(message);
-
             });
-
         });
 
     });
@@ -170,13 +161,12 @@ exports.createShop = function (shopDetails) {
 exports.createProduct = function (shopId, productDetails) {
 
     return new Promise(function(resolve, reject){
+        
         Shop.findById(shopId).then(function(shop){
 
             MyShopModels[shop.db_name].create(productDetails)
             .then(function() {
-
                 resolve();
-
             });
 
         });
@@ -191,12 +181,11 @@ exports.createProduct = function (shopId, productDetails) {
 exports.findAll = function (shopId) {
 
     return new Promise(function (resolve, reject){
-        Shop.findById(shopId).then(function(shop){
 
-            MyShopModels[shop.db_name].findAll().then(function(products){
+        Shop.findById(shopId).then(function (shop) {
+            MyShopModels[shop.db_name].findAll().then(function (products) {
                 resolve(products);
             });
-
         });
 
     });
@@ -209,8 +198,8 @@ exports.findAll = function (shopId) {
 exports.updateProduct = function (shopId, productId, productDetails) {
 
     return new Promise(function (resolve, reject){
-        Shop.findById(shopId).then(function(shop){
 
+        Shop.findById(shopId).then(function (shop) {
             MyShopModels[shop.db_name].update(productDetails, {
                 where: {
                     id: {
@@ -218,15 +207,12 @@ exports.updateProduct = function (shopId, productId, productDetails) {
                     }
                 }
             }).then(function (results, metadata) {
-
                 if(results){
                     resolve({status: results});
                 }else{
                     resolve({status: 'Error'});
                 };
-
             });
-
         });
         
     });
@@ -241,17 +227,13 @@ exports.deleteProduct = function (shopId, productId) {
     return new Promise(function (resolve, reject){
 
         Shop.findById(shopId).then(function (shop) {
-
             MyShopModels[shop.db_name].destroy({
                     where: {
                         id: productId
                     }
                 }).then(function () {
-
                     resolve();
-
                 });
-
         });
 
     });

@@ -15,27 +15,10 @@ exports.createSaaSDB = function () {
     return new Promise(function (resolve, reject) {
         var connection = connObj(conn);
         connection.query('CREATE DATABASE IF NOT EXISTS shop', function (err) {
-
             if (err) {
-                reject({status: 'Error'});
+                resolve({status: 'Error'});
             } 
             resolve({status: 'Success'});
-
-            // Conflicting with Sequelize
-            /*
-            connection.query('USE shop', function (err) {
-                if (err) throw err;
-                connection.query('CREATE TABLE IF NOT EXISTS shop('
-                    + 'id INT NOT NULL AUTO_INCREMENT,'
-                    + 'PRIMARY KEY(id),'
-                    + 'shop_name VARCHAR(50),'
-                    + 'db_name VARCHAR(50),'
-                    + 'requests BIGINT UNSIGNED DEFAULT 0'
-                    +  ')', function (err) {
-                        if (err) throw err;
-                });
-            });
-            */
             connection.end();
         });
 
@@ -51,7 +34,7 @@ exports.createShopDB = function(shopName){
     var connection = connObj(conn);
     return new Promise(function (resolve, reject) {
         connection.query('CREATE DATABASE IF NOT EXISTS ' + shopName + '', function (err) {
-            if(err) {
+            if (err) {
                 resolve({status: 'Error'});
             }
             // Conflicting with sequelize

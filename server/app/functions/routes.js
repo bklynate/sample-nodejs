@@ -1,6 +1,6 @@
 'use strict';
 var body = require('./commons');
-var sql = require('./sql/sequelize-models');
+var sql = require('./sequelize/sequelize-models');
 /*
  * Create shop function
 */
