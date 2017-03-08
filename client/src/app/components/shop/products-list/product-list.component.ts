@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { Product } from '../../../interfaces/product/product';
 import {Httpprovider} from '../../../services/http/http.service';
-
+import {Router, ActivatedRoute} from '@angular/router';
 @Component({
   selector: 'product-list',
   template: `
+  <div style="text-align:center">
   <h3>Products List</h3>
-  <table>
+  <table align="center">
     <thead>
       <th>Id</th>
       <th>Category</th>
@@ -24,14 +25,21 @@ import {Httpprovider} from '../../../services/http/http.service';
       </tr>
     </tbody>
   </table>
+  </div>
   `,
 })
 export class ProductListComponent  { 
   products: Product[] = [];
-  constructor(private _http: Httpprovider) {
+  params: string;
+  constructor(private _http: Httpprovider, private _activatedRoute: ActivatedRoute) {
 
   }
   ngOnInit(){
-    //this._http.httpReq()
+    this._activatedRoute.params.subscribe((params)=>{
+      this.params = params.shopid;
+      this._http.httpReq('http://localhost:9001/shop/'+this.params+'/products','GET',{}, '').subscribe((products)=>{
+        this.products = products.results;
+      });
+    });
   }
 }

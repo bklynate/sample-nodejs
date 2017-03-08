@@ -12,6 +12,7 @@ import {ProductListComponent} from './components/shop/products-list/product-list
 import { ShopComponent } from './components/shop/shop/shop.component';
 import { AdminComponent } from './components/admin/admin/admin.component';
 import { HomeComponent } from './components/home/home.component';
+import { ShopListComponent } from './components/shop/shop-list/shop-list.component';
 
 import {routes, appRoutingProviders} from './routes/app.routes';
 import {Httpprovider} from './services/http/http.service';
@@ -19,7 +20,7 @@ import {Httpprovider} from './services/http/http.service';
 @NgModule({
   imports:      [ BrowserModule, CommonModule, FormsModule, HttpModule, routes ],
   declarations: [ 
-    AppComponent, AddShopComponent, ShopComponent, AdminComponent, 
+    AppComponent, AddShopComponent, ShopComponent, AdminComponent, ShopListComponent, 
     AddProductComponent, EditProductComponent, ProductListComponent, HomeComponent,
   ],
   providers: [appRoutingProviders, Httpprovider],
