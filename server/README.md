@@ -1,4 +1,4 @@
-# Shop Server side code
+# Shop (Product List) Server Code Documentation
 
 * Project uses Express, and MYSQL as Server Backend.
 * Project uses sequelize for DB connection
