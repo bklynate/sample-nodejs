@@ -12,7 +12,7 @@
 
 ** URL: `localhost:9001/shop`
 
-** Method: POST
+** Method: `POST`
 
 ** Headers: `'content-type':'application/json'`
 
@@ -26,7 +26,7 @@
 
 ** URL: `localhost:9001/shop/::shopId/product`
 
-** Method: POST
+** Method: `POST`
 
 ** Headers: `'content-type':'application/json'`
 
@@ -42,7 +42,7 @@
 
 ** URL: `localhost:9001/shop/1/products`
 
-** Method: GET
+** Method: `GET`
 
 ** Headers: `'content-type':'application/json'`
 
@@ -53,7 +53,7 @@
 
 ** URL: `localhost:9001/shop/::shopId/product/::productId`
 
-** Method: PUT
+** Method: `PUT`
 
 ** Headers: `'content-type':'application/json'`
 
@@ -69,7 +69,7 @@
 
 ** URL: `localhost:9001/shop/::shopId/product/::productId`
 
-** Method: DELETE
+** Method: `DELETE`
 
 ** Headers: `'content-type':'application/json'`
 
