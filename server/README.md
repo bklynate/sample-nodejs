@@ -13,44 +13,45 @@
 ** Method: POST
 ** Headers: `'content-type':'application/json'`
 ** Sample Request Body: 
-{
+`{
 "shop_name": "tests",
 "db_name": "tests"
-}
+}`
 
 ### Create Product
-** URL: localhost:9001/shop/::shopId/product
+** URL: `localhost:9001/shop/::shopId/product`
 ** Method: POST
 ** Headers: `'content-type':'application/json'`
 ** Sample Request Body: 
-{
+`{
 "category": "electronics",
 "product": "iPhone",
 "discount": 455,
 "price": 35
-}
+}`
 
 ### Get Products of a shop
-** URL: localhost:9001/shop/1/products
+** URL: `localhost:9001/shop/1/products`
 ** Method: GET
 ** Headers: `'content-type':'application/json'`
 ** Sample Request Body: 
-Not Applicable
+`Not Applicable`
 
 ### Update Product details of shop
-** URL: localhost:9001/shop/::shopId/product/::productId
+** URL: `localhost:9001/shop/::shopId/product/::productId`
 ** Method: PUT
 ** Headers: `'content-type':'application/json'`
 ** Sample Request Body: 
-{
+`{
 "category": "alternate medicine",
 "product": "Aloe Vera",
 "discount": 25,
 "price": 75
-}
+}`
 
 ### Delete Product of shop
-** URL: localhost:9001/shop/::shopId/product/::productId
+** URL: `localhost:9001/shop/::shopId/product/::productId`
 ** Method: DELETE
 ** Headers: `'content-type':'application/json'`
 ** Sample Request Body: 
+`Not Applicable`
