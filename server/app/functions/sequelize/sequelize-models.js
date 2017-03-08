@@ -156,6 +156,21 @@ exports.createShop = function (shopDetails) {
 };
 
 /*
+ * Find all shops from the shop table
+*/
+exports.findAllShops = function () {
+
+    return new Promise(function (resolve, reject){
+
+        Shop.findAll().then(function (shops) {
+            resolve(shops);
+        });
+
+    });
+
+};
+
+/*
  * Create a new product listing in the shop's product table using details from the user
 */
 exports.createProduct = function (shopId, productDetails) {

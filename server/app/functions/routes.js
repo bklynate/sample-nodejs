@@ -22,6 +22,26 @@ exports.createShop = function (req, res, next) {
 
 };
 
+
+/*
+ * Get shops list function
+*/
+exports.getShops = function (req, res, next) {
+
+    var results = [], msg = 'Failed', details = 'Shop list could not be fetched';
+    sql.findAllShops().then(function (shops) {
+        if(!shops || !shops.length){
+            msg = 'Error';
+            res.status(403).json(body.str(results, msg, details));
+        }
+        msg = 'Error';
+        details = 'Shop list from shop db';
+        results = shops;
+        res.status(200).json(body.str(results, msg, details));
+    });
+
+}
+
 /*
  * Get products from shop function
 */

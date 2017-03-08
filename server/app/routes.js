@@ -3,9 +3,10 @@ var app = express();
 var routeFns = require('./functions/routes');
 
 /*
- * Adding routes for the shop creation
+ * Adding routes for the shop and creation
 */
 app.route('/shop').post(routeFns.createShop);
+app.route('/shops').get(routeFns.getShops);
 
 /*
  * Adding routes for the shop products

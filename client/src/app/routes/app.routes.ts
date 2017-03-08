@@ -8,12 +8,13 @@ import { ProductListComponent } from '../components/shop/products-list/product-l
 import { ShopComponent } from '../components/shop/shop/shop.component';
 import { AdminComponent } from '../components/admin/admin/admin.component';
 import { HomeComponent } from '../components/home/home.component';
+import { ShopListComponent } from '../components/shop/shop-list/shop-list.component';
 
 const appRoutes: Routes = [
     {path:"", component: HomeComponent},
     {path:"shop", component: ShopComponent, children:[
-        {path:"", component: ProductListComponent},
-        {path:"products", component: ProductListComponent},
+        {path:"", component: ShopListComponent},
+        {path:"products/:shopid", component: ProductListComponent},
         {path:"addproduct", component: AddProductComponent},
         {path:"editProduct", component: EditProductComponent}
     ]},
