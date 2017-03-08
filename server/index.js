@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var routes = require('./app/routes.js');
 var md = require('./app/functions/middlewares');
+var env = require('./app/functions/sql/connection').serverVars;
 
 /*
  * Adding middlewares for parsing JSON Body
@@ -24,6 +25,6 @@ app.use(methodOverride());
 */
 app.use('/', md.middlewareGenericErrorHandler, md.middlewareSetHeaders, routes);
 
-http.listen(9001, '127.0.0.1', function() {
-    console.log('listening on *:9001');
+http.listen(env.port, env.host, function() {
+    console.log('listening on server config port ' + env.port);
 });

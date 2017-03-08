@@ -28,7 +28,7 @@ export class ShopListComponent implements OnInit  {
 
   }
   ngOnInit(){
-    this._http.httpReq('http://localhost:9001/shops','GET',{}, '').subscribe((shops)=>{
+    this._http.httpReq('/shops', 'GET', {}, '').subscribe((shops)=>{
       this.shops = shops.results;
     });
   }

@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 var conn = require('./connection').connectionObj;
-var connObj = function(conn){
+var connObj = function (conn) {
     return mysql.createConnection({
         host: conn.host,
         user: conn.user,

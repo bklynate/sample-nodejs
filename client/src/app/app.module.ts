@@ -15,6 +15,7 @@ import { ShopListComponent } from './components/shop/shop-list/shop-list.compone
 
 import {routes, appRoutingProviders} from './routes/app.routes';
 import {Httpprovider} from './services/http/http.service';
+import {ConfigService} from './services/config/config.service';
 
 @NgModule({
   imports:      [ BrowserModule, CommonModule, FormsModule, HttpModule, routes ],
@@ -22,7 +23,7 @@ import {Httpprovider} from './services/http/http.service';
     AppComponent, AddShopComponent, ShopComponent, AdminComponent, ShopListComponent, 
     EditProductComponent, ProductListComponent, HomeComponent,
   ],
-  providers: [appRoutingProviders, Httpprovider],
+  providers: [appRoutingProviders, Httpprovider, ConfigService],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http, Response, Request,RequestMethod, Headers} from '@angular/http';
+import {ConfigService} from '../config/config.service';
+
 //import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 
@@ -7,7 +9,7 @@ import 'rxjs/Rx';
 export class Httpprovider {
     cities: Response;
     http: Http;
-    constructor(http: Http){
+    constructor(http: Http, private _configService: ConfigService){
         this.http = http;
     }
     httpReq(url: string, method: string, data: any, header: string){
@@ -40,7 +42,7 @@ export class Httpprovider {
 
         return this.http.request(new Request({
                     method: methods,
-                    url: url,
+                    url: this._configService.restAPIString + url,
                     body: JSON.stringify(data),
                     headers: headers
                 })).map(res => res.json());

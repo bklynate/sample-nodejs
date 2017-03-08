@@ -68,7 +68,7 @@ export class ProductListComponent  {
 
   }
   onSubmit(addproduct: any) {
-    var req;
+    var req: any;
     let that = this;
     if (this.option === 'add') {
       req = {
@@ -77,7 +77,7 @@ export class ProductListComponent  {
         discount: addproduct.discount,
         price: addproduct.price
       };
-      this._http.httpReq('http://localhost:9001/shop/' + this.params + '/product/', 'POST', req, '').subscribe((products) => {
+      this._http.httpReq('/shop/' + this.params + '/product/', 'POST', req, '').subscribe((products) => {
           that.option = 'add';
           if(products.status === 'Success'){
             that.addproduct = {
@@ -97,7 +97,7 @@ export class ProductListComponent  {
         discount: addproduct.discount,
         price: addproduct.price
       };
-      this._http.httpReq('http://localhost:9001/shop/' + this.params + '/product/' + addproduct.id, 'PUT', req, '').subscribe((products) => {
+      this._http.httpReq('/shop/' + this.params + '/product/' + addproduct.id, 'PUT', req, '').subscribe((products) => {
           that.option = 'add';
           if(products.status === 'Success'){
             that.addproduct = {
@@ -117,7 +117,7 @@ export class ProductListComponent  {
   onDelete(product: Product) {
 
     let that = this;
-    this._http.httpReq('http://localhost:9001/shop/' + this.params + '/product/' + product.id, 'DELETE', {}, '').subscribe((products) => {
+    this._http.httpReq('/shop/' + this.params + '/product/' + product.id, 'DELETE', {}, '').subscribe((products) => {
         for (let i = 0; i < that.products.length; i++) {
           if (product.id === that.products[i].id && products.status === 'Success') {
             that.products.splice(i, 1);
@@ -130,9 +130,8 @@ export class ProductListComponent  {
   ngOnInit() {
 
     this._activatedRoute.params.subscribe((params) => {
-      this.params = params.shopid;
-      console.log(params);
-      this._http.httpReq('http://localhost:9001/shop/' + this.params + '/products', 'GET', {}, '').subscribe((products) => {
+      this.params = params['shopid'];
+      this._http.httpReq('/shop/' + this.params + '/products', 'GET', {}, '').subscribe((products) => {
         this.products = products.results;
       });
     });
