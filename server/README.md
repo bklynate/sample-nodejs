@@ -9,9 +9,13 @@
 ## Usage
 
 ### Create shop
+
 ** URL: `localhost:9001/shop`
+
 ** Method: POST
+
 ** Headers: `'content-type':'application/json'`
+
 ** Sample Request Body: 
 `{
 "shop_name": "tests",
@@ -19,9 +23,13 @@
 }`
 
 ### Create Product
+
 ** URL: `localhost:9001/shop/::shopId/product`
+
 ** Method: POST
+
 ** Headers: `'content-type':'application/json'`
+
 ** Sample Request Body: 
 `{
 "category": "electronics",
@@ -31,13 +39,18 @@
 }`
 
 ### Get Products of a shop
+
 ** URL: `localhost:9001/shop/1/products`
+
 ** Method: GET
+
 ** Headers: `'content-type':'application/json'`
+
 ** Sample Request Body: 
 `Not Applicable`
 
 ### Update Product details of shop
+
 ** URL: `localhost:9001/shop/::shopId/product/::productId`
 
 ** Method: PUT
@@ -53,8 +66,12 @@
 }`
 
 ### Delete Product of shop
+
 ** URL: `localhost:9001/shop/::shopId/product/::productId`
+
 ** Method: DELETE
+
 ** Headers: `'content-type':'application/json'`
+
 ** Sample Request Body: 
 `Not Applicable`
