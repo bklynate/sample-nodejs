@@ -2,7 +2,6 @@ import {ModuleWithProviders} from '@angular/core';
 import {RouterModule, Routes } from '@angular/router';
 
 import { AddShopComponent } from '../components/admin/addshop/add-shop.component';
-import { AddProductComponent } from '../components/shop/add-product/add-product.component';
 import { EditProductComponent } from '../components/shop/edit-product/edit-product.component';
 import { ProductListComponent } from '../components/shop/products-list/product-list.component';
 import { ShopComponent } from '../components/shop/shop/shop.component';
@@ -15,7 +14,6 @@ const appRoutes: Routes = [
     {path:"shop", component: ShopComponent, children:[
         {path:"", component: ShopListComponent},
         {path:"products/:shopid", component: ProductListComponent},
-        {path:"addproduct", component: AddProductComponent},
         {path:"editProduct", component: EditProductComponent}
     ]},
     {path:"admin", component: AdminComponent, children:[

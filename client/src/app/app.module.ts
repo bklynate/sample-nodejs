@@ -6,7 +6,6 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent }  from './app.component';
 import {AddShopComponent} from './components/admin/addshop/add-shop.component';
-import {AddProductComponent} from './components/shop/add-product/add-product.component';
 import {EditProductComponent} from './components/shop/edit-product/edit-product.component';
 import {ProductListComponent} from './components/shop/products-list/product-list.component';
 import { ShopComponent } from './components/shop/shop/shop.component';
@@ -21,7 +20,7 @@ import {Httpprovider} from './services/http/http.service';
   imports:      [ BrowserModule, CommonModule, FormsModule, HttpModule, routes ],
   declarations: [ 
     AppComponent, AddShopComponent, ShopComponent, AdminComponent, ShopListComponent, 
-    AddProductComponent, EditProductComponent, ProductListComponent, HomeComponent,
+    EditProductComponent, ProductListComponent, HomeComponent,
   ],
   providers: [appRoutingProviders, Httpprovider],
   bootstrap:    [ AppComponent ]

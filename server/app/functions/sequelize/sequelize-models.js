@@ -218,7 +218,7 @@ exports.updateProduct = function (shopId, productId, productDetails) {
             MyShopModels[shop.db_name].update(productDetails, {
                 where: {
                     id: {
-                        $eq: shopId
+                        $eq: productId
                     }
                 }
             }).then(function (results, metadata) {
